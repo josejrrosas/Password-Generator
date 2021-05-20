@@ -5,17 +5,16 @@
 -at least one charactertype should be selected
 -display generated password
 
-look up combining array javascript
 */
 
 
 // Assignment Code
 var generateBtn = document.querySelector("#generate"); //an id button
 var passwordLength;
-var lowerCase = "abcdefghijklmnopqrstuvwxyz".split(''); //the split part makes it an array | use .join() to connect them all at the end 
-var upperCase ="ABCDEFGHIJKLMNOPQRSTUVWXYZ".split('');
-var specialChar = "!@#$%^&*()".split('');;
-var numbers ="1234567890".split('');
+var lowerCase = "abcdefghijklmnopqrstuvwxyz";
+var upperCase ="ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+var specialChar = "!@#$%^&*()";;
+var numbers ="1234567890";
 var upperValidated;
 var specialValidated;
 var numValidated;
@@ -28,22 +27,22 @@ function length(){
       alert("Password must be between 8 - 128 characters");
       length();
     }else{
-    alert("Please select at least 1 character type in the next menu");
+    alert("Please select at least 1 character type in the following prompts");
     }
     return passwordLength;
 }
 
 //function to validate upper case 
 function isUpperCase(){
-  var upperValidated = confirm("Would you like your password to contain upper-case letters?");
-
+  upperValidated = confirm("Would you like your password to contain upper-case letters?");
+  
   if(upperValidated == true){
-    upperValidated = true;
+    specialValidated = true;
     return upperValidated;
   }
   else {
     upperValidated = false;
-    return upperValidated;
+    return specialValidated;
  }
 
   return upperValidated;
@@ -51,7 +50,7 @@ function isUpperCase(){
 
 //function to validate special characters
 function isSpecial(){
-  var specialValidated = confirm("Would you like your password to contain special characters?");
+  specialValidated = confirm("Would you like your password to contain special characters?");
 
   if(specialValidated == true){
     specialValidated = true;
@@ -67,7 +66,7 @@ function isSpecial(){
 
 //function to validate numbers
 function isNumbers(){
-  var numValidated = confirm("Would you like your password to contain numbers?");
+  numValidated = confirm("Would you like your password to contain numbers?");
 
   if(numValidated == true){
     numValidated = true;
@@ -86,27 +85,57 @@ function isNumbers(){
 generateBtn.addEventListener("click", writePassword); //runs writePassword function after a click 
 
 
+//based on response. Add the appropriate characters 
+//and add them into one single string and randomize it to get password
+
+function generatePassword(){
+  length();
+  isUpperCase();
+  isSpecial();
+  isNumbers();
+
+  var password = "";
+  var characters = lowerCase;
+
+  if(upperValidated == true && specialValidated == true && numValidated ==true){
+    characters += upperCase + specialChar + numbers;
+  }
+  else if(upperValidated == false && specialValidated == true && numValidated ==true){
+    characters += specialChar + numbers;
+  }
+  else if(upperValidated == true && specialValidated == false && numValidated ==true){
+    characters += upperCase + numbers;
+  }
+  else if(upperValidated == true && specialValidated == true && numValidated ==false){
+    characters += upperCase + specialChar;
+  }
+  else if(upperValidated == false && specialValidated == false && numValidated ==true){
+    characters += numbers;
+  }
+  else if(upperValidated == false && specialValidated == true && numValidated ==false){
+    characters += specialChar;
+  }
+  else if(upperValidated == true && specialValidated == false && numValidated ==false){
+    characters += upperCase;
+  }
+  else{
+    alert("Please select at least one character type to make your password more secure!");
+    return generatePassword();
+  }
+
+  for(var i = 0; i < passwordLength ; i++){
+    password += characters.charAt(Math.floor(Math.random() * characters.length));
+  }
+
+  return password; //this shows in the text area for generate a password 
+}
+
 
 // Write password to the #password input
 function writePassword() {
-  var password = generatePassword();//define generatePassword by creating generatePAssword below 
+  var password = generatePassword();//define generatePassword by creating generatePassword  
   var passwordText = document.querySelector("#password");
 
   passwordText.value = password;
 
 }
-
-
-function generatePassword(){
-  var password = ['n' , ' ' , 'p' , 's' , ' ' , 'q'];
-  return length();
-  return isUpperCase();
-  // var passwordLength = prompt("How long should your password be? (8 - 128)");
-  // var isUpperCase = confirm("Do you want it to contain upperCase letters?");
-  // console.log(isUpperCase); //returns false if cancel so use boolean
-  console.log(password);
-  console.log(password.join(''));
-  return password.join(''); //this shows in the text area for generate a password 
-}
-
-
