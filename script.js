@@ -127,13 +127,13 @@ function generatePassword(){
     password += characters.charAt(Math.floor(Math.random() * characters.length));
   }
 
-  return password; //this shows in the text area for generate a password 
+  return password; //this result shows in the text area for generate a password 
 }
 
 
 // Write password to the #password input
 function writePassword() {
-  var password = generatePassword();//define generatePassword by creating generatePassword  
+  var password = generatePassword();//define generatePassword by completing generatePassword  function
   var passwordText = document.querySelector("#password");
 
   passwordText.value = password;
